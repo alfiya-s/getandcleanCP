@@ -42,23 +42,18 @@ levels(dt.all$Activity) <- c('Laying down',
                                 'Walking',
                                 'Walking (downstairs)',
                                 'Walking (upstairs)')
+dt.all$meas.dscr <- gsub('\\d+', '', dt.all$meas.dscr)
+dt.all$meas.dscr <- gsub(' ', '', dt.all$meas.dscr)
 dt.temp <- data.frame(do.call(rbind, strsplit(dt.all$meas.dscr, '-')))
-dt.all <- cbind(dt.all, dt.temp)
-dt.all$X3 <- as.character(dt.all$X3)
-dt.all[!(dt.all$X3 %in% c('X', 'Y', 'Z')), 'X3'] <- ''
-dt.all$X1 <- gsub('\\d+', '', dt.all$X1)
-dt.all$X1 <- gsub(' ', '', dt.all$X1)
-dt.all$X4 <- substr(dt.all$X1, 1, 1)
-dt.all$X1 <- substr(dt.all$X1, 2, nchar(dt.all$X1))
-dt.all$meas.dscr <-  paste(dt.all$X1, dt.all$X4, dt.all$X3, sep = '-')
-dt.all <- reshape(dt.all,  
-                   dir = 'wide',
-                   idvar = 'X2',
-                   timevar = c('X1', 'X3'),
-                   v.names = 'measure')
-write.csv(levels(dt.all$X1), file = '1.csv')
-eshape(DT.weekly, 
-       varying = c('FALSE.','TRUE.'),
-       v.names ='steps',
-       timevar = 'day',
-       times = c('Weekday','Weekend'))
+dt.all$metric <- dt.temp$X2
+dt.all$meas.dscr <- paste(dt.temp$X1, dt.temp$X3, sep = '-')
+
+require('data.table')
+w <- reshape(dt.all, 
+             timevar = "metric",
+             idvar = c("subject", "meas.dscr", "Activity"),
+             direction = "wide")
+
+colnames(dt.all) <- c('subject', 'measures.description', 'Activity', 'mean', 'sd')
+dt.all <- data.table(dt.all)
+dt.all[, .(Mean = mean(mean), Sd = mean(sd)), by=list(measures.description, subject)]
