@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+<title>Short Intro</title>
+
+<script type="text/javascript">
+window.onload = function() {
+  var imgs = document.getElementsByTagName('img'), i, img;
+  for (i = 0; i < imgs.length; i++) {
+    img = imgs[i];
+    // center an image if it is the only element of its parent
+    if (img.parentElement.childElementCount === 1)
+      img.parentElement.style.textAlign = 'center';
+  }
+};
+</script>
+
+
+
+
+
+<style type="text/css">
+body, td {
+   font-family: sans-serif;
+   background-color: white;
+   font-size: 13px;
+}
+
+body {
+  max-width: 800px;
+  margin: auto;
+  padding: 1em;
+  line-height: 20px;
+}
+
+tt, code, pre {
+   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+}
+
+h1 {
+   font-size:2.2em;
+}
+
+h2 {
+   font-size:1.8em;
+}
+
+h3 {
+   font-size:1.4em;
+}
+
+h4 {
+   font-size:1.0em;
+}
+
+h5 {
+   font-size:0.9em;
+}
+
+h6 {
+   font-size:0.8em;
+}
+
+a:visited {
+   color: rgb(50%, 0%, 50%);
+}
+
+pre, img {
+  max-width: 100%;
+}
+pre {
+  overflow-x: auto;
+}
+pre code {
+   display: block; padding: 0.5em;
+}
+
+code {
+  font-size: 92%;
+  border: 1px solid #ccc;
+}
+
+code[class] {
+  background-color: #F8F8F8;
+}
+
+table, td, th {
+  border: none;
+}
+
+blockquote {
+   color:#666666;
+   margin:0;
+   padding-left: 1em;
+   border-left: 0.5em #EEE solid;
+}
+
+hr {
+   height: 0px;
+   border-bottom: none;
+   border-top-width: thin;
+   border-top-style: dotted;
+   border-top-color: #999999;
+}
+
+@media print {
+   * {
+      background: transparent !important;
+      color: black !important;
+      filter:none !important;
+      -ms-filter: none !important;
+   }
+
+   body {
+      font-size:12pt;
+      max-width:100%;
+   }
+
+   a, a:visited {
+      text-decoration: underline;
+   }
+
+   hr {
+      visibility: hidden;
+      page-break-before: always;
+   }
+
+   pre, blockquote {
+      padding-right: 1em;
+      page-break-inside: avoid;
+   }
+
+   tr, img {
+      page-break-inside: avoid;
+   }
+
+   img {
+      max-width: 100% !important;
+   }
+
+   @page :left {
+      margin: 15mm 20mm 15mm 10mm;
+   }
+
+   @page :right {
+      margin: 15mm 10mm 15mm 20mm;
+   }
+
+   p, h2, h3 {
+      orphans: 3; widows: 3;
+   }
+
+   h2, h3 {
+      page-break-after: avoid;
+   }
+}
+</style>
+
+
+
+</head>
+
+<body>
+<h1>Short Intro</h1>
+
+<p>Hello there!
+This is a project for the Course Getting and Cleaning Data.
+I tried to explain all steps in the code, here I provide simple codebook for all variables. As you can see from the names of the variables, I do not know all technical details very well, but I tried my best.</p>
+
+<p>I am not native English speaker, so if you have recommendation how to effectively and fast learn English , I will very happy.</p>
+
+<p>Any feedback (especially negative) is highly appreciated.</p>
+
+<h1>How the data was produced</h1>
+
+<h2>Mining</h2>
+
+<p>First I write he function to extract data from folders. They differ only in name (test and train). What function do: it takes folder names, construct path with files name and read it to data frames. Result: we obtain two lists of data (train and test). I cannot transform them to dataframes, because almost all variables have different length.</p>
+
+<h2>Join and subset the data</h2>
+
+<p>I use mapply function to bind variables from train and test data. 
+I load labels from txt files and add them to list.
+I subset the data, using regular expressions. It helps to preserve only rows with mean and standard deviation.</p>
+
+<h2>Transform the data</h2>
+
+<p>I split the names to obtain the column with &#39;mean-sd&#39; variable and then collect the names again. This variable helps to reshape data into tidy format.</p>
+
+<h1>Codebook</h1>
+
+<p>Note, that sygnal is measured in three directions (for example, body acceleration signal (frequency domain signal) in X direction is coded as &#39;fBodyAcc X&#39;). Magnitudes have no direction.</p>
+
+<table><thead>
+<tr>
+<th align="left">Variable</th>
+<th align="left">Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td align="left">tGravityAcc</td>
+<td align="left">Gravity acceleration signals (time domain signal)</td>
+</tr>
+<tr>
+<td align="left">fBodyGyro</td>
+<td align="left">Gravity sygnal (time domain signal)</td>
+</tr>
+<tr>
+<td align="left">tBodyAcc</td>
+<td align="left">Body acceleration signal (time domain signal)</td>
+</tr>
+<tr>
+<td align="left">fBodyAccJerk</td>
+<td align="left">Body Jerk signal (frequency domain signal)</td>
+</tr>
+<tr>
+<td align="left">tBodyAccJerk</td>
+<td align="left">Body Jerk signal (time domain signal)</td>
+</tr>
+<tr>
+<td align="left">tBodyGyroMag</td>
+<td align="left">Magnitude of body acceleration signal (time domain signal)</td>
+</tr>
+<tr>
+<td align="left">fBodyBodyGyroJerkMag</td>
+<td align="left">Magnitude of body Jerk signal (frequency domain signal)</td>
+</tr>
+<tr>
+<td align="left">fBodyAcc</td>
+<td align="left">Body acceleration signal (frequency domain signal)</td>
+</tr>
+<tr>
+<td align="left">fBodyBodyAccJerkMag</td>
+<td align="left">Magnitude of body (twice) gravity Jerk signal (frequency domain signal)</td>
+</tr>
+<tr>
+<td align="left">tBodyGyro</td>
+<td align="left">Body gravity sygnal (time domain signal)</td>
+</tr>
+<tr>
+<td align="left">tBodyAccJerkMag</td>
+<td align="left">Magnitude of body acceleration Jerk signal (time domain signal)</td>
+</tr>
+<tr>
+<td align="left">tBodyGyroJerkMag</td>
+<td align="left">Magnitude of body gravity Jerk signal (time domain signal)</td>
+</tr>
+<tr>
+<td align="left">fBodyBodyGyroMag</td>
+<td align="left">Magnitude of body (twice) gravity Jerk signal (frequency domain signal)</td>
+</tr>
+<tr>
+<td align="left">fBodyAccMag</td>
+<td align="left">Magnitude of gravity acceleration signals (frequency domain signal)</td>
+</tr>
+<tr>
+<td align="left">tBodyAccMag</td>
+<td align="left">Magnitude of gravity acceleration signals (time domain signal)</td>
+</tr>
+<tr>
+<td align="left">tBodyGyroJerk</td>
+<td align="left">Magnitude of body (twice) Jerk signal (time domain signal)</td>
+</tr>
+<tr>
+<td align="left">tGravityAccMag</td>
+<td align="left">Magnitude of body gravity signal ((time domain signal)</td>
+</tr>
+</tbody></table>
+
+</body>
+
+</html>

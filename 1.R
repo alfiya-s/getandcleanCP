@@ -42,18 +42,21 @@ levels(dt.all$Activity) <- c('Laying down',
                                 'Walking',
                                 'Walking (downstairs)',
                                 'Walking (upstairs)')
+
 dt.all$meas.dscr <- gsub('\\d+', '', dt.all$meas.dscr)
 dt.all$meas.dscr <- gsub(' ', '', dt.all$meas.dscr)
 dt.temp <- data.frame(do.call(rbind, strsplit(dt.all$meas.dscr, '-')))
+dt.temp$X3 <- as.character(dt.temp$X3)
+dt.temp[!(dt.temp$X3 %in% c('X', 'Y', 'Z')), 'X3'] <- ''
 dt.all$metric <- dt.temp$X2
-dt.all$meas.dscr <- paste(dt.temp$X1, dt.temp$X3, sep = '-')
+dt.all$meas.dscr <- paste(dt.temp$X1, dt.temp$X3, sep = ' ')
 
 require('data.table')
-w <- reshape(dt.all, 
+dt.all <- reshape(dt.all, 
              timevar = "metric",
              idvar = c("subject", "meas.dscr", "Activity"),
              direction = "wide")
-
 colnames(dt.all) <- c('subject', 'measures.description', 'Activity', 'mean', 'sd')
 dt.all <- data.table(dt.all)
-dt.all[, .(Mean = mean(mean), Sd = mean(sd)), by=list(measures.description, subject)]
+dt.summary <- dt.all[, .(Mean = mean(mean), Sd = mean(sd)), by=list(Activity, subject)]
+write.table(dt.summary, 'data.txt', row.name=FALSE)  
